@@ -1,0 +1,41 @@
+body {
+    text-align: center;
+}
+.stage {
+    position: relative;
+    width: 568px;
+    height: 192px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+.mask {
+    position: absolute;
+    background-image: url(mask.png);
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+.letter {
+    float: left;
+    height: 192px;
+    background: #ccc;
+    cursor: pointer;
+}
+#l0 {
+    width: 145px;
+}
+#l1 {
+    width: 100px;
+}
+#l2 {
+    width: 100px;
+}
+#l3 {
+    width: 100px;
+}
+#l4 {
+    width: 30px;
+}
+#l5 {
+    width: 93px;
+}

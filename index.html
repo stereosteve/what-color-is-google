@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>What Color is Google?</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div>
+        <b>Instructions:</b>
+        <br />
+        Click a letter to change it's color.
+        <br />
+        Fill out all the colors and click <b>Guess!</b>
+        <br />
+        Keep guessing until you win.
+    </div>
+
+    <div class="stage">
+        <div class='mask'></div>
+        <div id="l0" class='letter'></div>
+        <div id="l1" class='letter'></div>
+        <div id="l2" class='letter'></div>
+        <div id="l3" class='letter'></div>
+        <div id="l4" class='letter'></div>
+        <div id="l5" class='letter'></div>
+    </div>
+
+    <div id="gradeOutput">&nbsp;</div>
+    <button class="getGrade">Guess!</button>
+
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
