@@ -5,28 +5,22 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div>
-        <b>Instructions:</b>
-        <br />
-        Click a letter to change it's color.
-        <br />
-        Fill out all the colors and click <b>Guess!</b>
-        <br />
-        Keep guessing until you win.
-    </div>
-
     <div class="stage">
-        <div class='mask'></div>
-        <div id="l0" class='letter'></div>
-        <div id="l1" class='letter'></div>
-        <div id="l2" class='letter'></div>
-        <div id="l3" class='letter'></div>
-        <div id="l4" class='letter'></div>
-        <div id="l5" class='letter'></div>
+        <div class="mask"></div>
+        <div id="l0" class="letter" data-index="0"></div>
+        <div id="l1" class="letter" data-index="1"></div>
+        <div id="l2" class="letter" data-index="2"></div>
+        <div id="l3" class="letter" data-index="3"></div>
+        <div id="l4" class="letter" data-index="4"></div>
+        <div id="l5" class="letter" data-index="5"></div>
     </div>
 
-    <div id="gradeOutput">&nbsp;</div>
-    <button class="getGrade">Guess!</button>
+    <button id="lucky" class="is-disabled">I'm Feeling Lucky</button>
+
+     <div id="response">
+        <div id="message"></div>
+        <div id="guesses"></div>
+     </div>
 
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="app.js"></script>

@@ -1,54 +1,94 @@
 /*global $:true*/
 
+var GRAY = '#ccc';
 var RED = '#ea4335'
 var GREEN = '#34a853'
 var BLUE = '#4285f4'
 var YELLOW = '#fbbc05'
-var COLORS = [BLUE, GREEN, YELLOW, RED]
-var SOLUTION = [BLUE, RED, YELLOW, BLUE, GREEN, RED]
+var COLORS = [GRAY, BLUE, GREEN, YELLOW, RED]
+var SOLUTION = [1, 4, 3, 1, 2, 4]
+var guess = [0, 0, 0, 0, 0, 0]
 var guessCount = 0
 
-$('body').on('click', '.letter', function(ev) {
-    var el = $(ev.currentTarget)
-    var idx = el.data('idx')
-    idx = idx == undefined ? 0 : (idx + 1) % COLORS.length
-    el.data('idx', idx)
-    var color = COLORS[idx]
-    el.css('background-color', color)
+var button, response, message, guesses
+var letters = []
+
+var responses = [
+    'You are correct!',
+    'Close! You only have one wrong.',
+    'Whoops, you need to fix two!',
+    'Try again, you only got half of them right.',
+    'Not quite, you have four mistakes.',
+    'So...you only got one right, try again.',
+    'Zero correct, sheesh.'
+]
+
+$(document).ready(function() {
+    button = $('#lucky')
+    response = $('#response')
+    message = $('#message')
+    guesses = $('#guesses')
+    for (var i = 0; i < 6; i++) {
+        letters.push($('#l' + i));
+    }
+
+    $('body').on('click', '.letter', clickLetter)
+    $('body').on('click', '#lucky', checkSolution)
+
+    showIntro();
 })
 
+function clickLetter(ev) {
+    var el = $(ev.currentTarget)
+    var i = parseInt(el.attr('data-index'))
+    guess[i] = guess[i] === COLORS.length - 1 ? 1 : guess[i] + 1
+    paintLetter(i, guess[i])
+    toggleGuessButton()
+}
 
-function check() {
-    var isCorrect = []
-    var score = 0
-    for (var i in SOLUTION) {
-        var el = $('#l' + i)
-        var idx = el.data('idx')
-        var color = COLORS[idx]
-        isCorrect[i] = (SOLUTION[i] == color)
-        if (isCorrect[i]) score++
+function paintLetter(letterIndex, colorIndex) {
+    letters[letterIndex].css('background-color', COLORS[colorIndex])
+}
+
+function showIntro() {
+    var numLoops = 6
+    var delay = 250
+
+    for (var i = 0; i <= numLoops; i++) {
+        paintAll(i);
     }
-    return {
-        isCorrect: isCorrect,
-        score: score
+
+    function paintAll(loop) {
+        setTimeout(function() {
+            for (var j = 0; j < 6; j++) {
+                var colorIndex = loop === numLoops ? 0 : getRandomColorIndex()
+                paintLetter(j, colorIndex)
+            }
+        }, loop * delay)
     }
 }
 
+function getRandomColorIndex() {
+    return Math.floor(Math.random() * (COLORS.length - 1)) + 1
+}
 
-$('body').on('click', '.getGrade', function() {
-    guessCount++
-    var result = check()
-    var resultText
-    if (result.score < 6) {
-        resultText = result.score + '/6'
-    } else {
-        resultText = 'WINNER!!!'
-    }
-    for (var i in result.isCorrect) {
-        if (!result.isCorrect[i]) {
-            $('#l' + i).css('background-color', 'gray')
+function toggleGuessButton() {
+    var letterNeedsColor = !guess.reduce(function(x, val) { return x * val })
+    button.toggleClass('is-disabled', letterNeedsColor)
+}
+
+function getNumberWrong() {
+    var numWrong = 0
+    for (var i = 0; i < SOLUTION.length; i++) {
+        if (SOLUTION[i] !== guess[i]) {
+            numWrong++
         }
     }
-    var guessText = guessCount == 1 ? ' guess.' : ' guesses.'
-    $('#gradeOutput').text(resultText + ' after ' + guessCount + guessText)
-})
+    return numWrong
+}
+
+function checkSolution() {
+    guessCount++
+    message.text(responses[getNumberWrong()])
+    guesses.text('Guess #' + guessCount)
+}
