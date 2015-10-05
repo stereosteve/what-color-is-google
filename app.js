@@ -89,6 +89,21 @@ function getNumberWrong() {
 
 function checkSolution() {
     guessCount++
-    message.text(responses[getNumberWrong()])
+    var numWrong = getNumberWrong()
+    message.text(responses[numWrong])
     guesses.text('Guess #' + guessCount)
+    reportGuess(numWrong)
+}
+
+function reportGuess(numWrong) {
+    var isCorrect = numWrong === 0
+    if (typeof ga !== 'undefined') {
+        var value = isCorrect ? 'Correct' : 'Incorrect'
+        ga('send', 'event', 'Guess', 'click' , value, {
+            isCorrect: isCorrect,
+            guess: guess,
+            numWrong: numWrong,
+            guessCount: guessCount
+        });
+    }
 }
