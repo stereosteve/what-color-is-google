@@ -23,6 +23,16 @@ var responses = [
     'Zero correct, sheesh.'
 ]
 
+window.onblur = function(e) {
+    document.title = 'Cheating?';
+}
+
+window.onfocus = function(e) {
+    document.title = 'What Color Is Google?';
+    $('#lucky').text("I'm Feeling Evil");
+    responses[0] += ' But you probably snuck a look when you went to that other tab.'
+}
+
 $(document).ready(function() {
     button = $('#lucky')
     response = $('#response')
